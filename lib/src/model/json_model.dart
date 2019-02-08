@@ -13,14 +13,15 @@ class JsonModel {
   JsonModel(this.id, this.title, this.url);
 
   JsonModel.fromJson(Map<String, dynamic> parseJSON) {
-    id = parseJSON['id'];
-    title = parseJSON['title'];
-    url = parseJSON['url'];
+    id = int.parse(parseJSON['id']);
+    title = parseJSON['NameFood'];
+    url = parseJSON['ImagePath'];
   }
 
   @override
   String toString() {
     // TODO: implement toString
     return 'id = $id, title = $title, url = $url';
+
   }
 }

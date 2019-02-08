@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import './model/json_model.dart';
 import 'package:http/http.dart' show get;
 import 'dart:convert';
+import './widget/image_list.dart';
+import './widget/image_list.dart';
 
 class App extends StatefulWidget {
   @override
@@ -13,18 +15,27 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> {
   int counter = 0;
+  List<JsonModel> jsonModel = [];
 
-  myClickFloting() async{
+  myClickFloting() async {
     counter += 1;
-      print('counter ==> $counter');
+    print('counter ==> $counter');
 
-      var response = await get('https://jsonplaceholder.typicode.com/photos/$counter');
-      var converted = json.decode(response.body);
-      print('converted ==> $converted');
+    var response = await get(
+        'https://www.androidthai.in.th/ice/getFood.php?isAdd=true&id=$counter');
+    var converted = json.decode(response.body);
+    print('converted ==> $converted');
 
-      // var objJsonModel = JsonModel(counter, 'counter ==> $counter', 'This is url');
-      var objJsonModel = JsonModel.fromJson(converted);
+    for (var data in converted) {
+      print('data ==> $data');
+      var objJsonModel = JsonModel.fromJson(data);
       print('objJsonModel ==> $objJsonModel');
+      setState(() {
+      jsonModel.add(objJsonModel);
+    });
+    }
+
+    
   }
 
   @override
@@ -32,13 +43,11 @@ class AppState extends State<App> {
     // TODO: implement build
     return MaterialApp(
       home: Scaffold(
-        body: Text('Counter ==> $counter'),
+        body: ImageList(jsonModel),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add_a_photo),
           onPressed: () {
-            setState(() {
-              myClickFloting();
-            });
+            myClickFloting();
           },
         ),
         appBar: AppBar(
